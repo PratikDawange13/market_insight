@@ -43,14 +43,7 @@ if st.button('Generate Analysis'):
         
         # Prompt for generative model
         prompt = """
-        You are an expert data analyst specializing in data science for travel agencies,
-        Based on the travel agency metrics and market metrics given, can you provide a detailed
-        analysis with insights and recommendations, covering and comparing each major metric like
-        by how much % the agency is doing better than the market in terms of profits, or what is
-        the trending destination, or what's customers preferred travel type or scope of 
-        improvement based on customer sentiment index or what is the sentiment of reviews 
-        (or what is one common theme), looking at the insights, generate some valuable 
-        recommendations on how the agency can do better.
+        You are an expert data analyst specializing in data science for travel agencies,Based on the travel agency metrics and market metrics given, can you provide a detailed analysis with insights and recommendations, covering and comparing each major metric like by how much % the agency is doing better than the market in terms of profits, or what is the trending destination, or what's customers preferred travel type or scope of improvement based on customer sentiment index or what is the sentiment of reviews (or what is one common theme), looking at the insights, generate some valuable recommendations on how the agency can do better.
         """
         
         # Generate the response from the model
