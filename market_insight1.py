@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 from pprint import pprint
 import time
+from markdown_pdf import MarkdownPdf, Section
 
 # Load API key and configure generative model
 #api_key = os.getenv("gemini_api_key")
@@ -57,10 +58,21 @@ if st.button('Generate Analysis'):
                 yield word + " "
                 time.sleep(0.1)
 
-
         st.subheader('Detailed Analysis and Recommendations')
         st.write_stream(stream_data)
         #st.write(analysis)
+
+        pdf = MarkdownPdf()
+        pdf.add_section(Section(analysis , toc=False))
+        pdf.save('output2.pdf')
+
+        with open("output2.pdf","rb") as pdf_file:
+            st.download_button(
+                label="Download Analysis and Charts as PDF",
+                data=pdf_file,
+                file_name="market_insights.pdf",
+                mime="application/pdf"
+            )
     except json.JSONDecodeError as e:
         st.error(f"Invalid JSON format: {e}")
     except Exception as e:
