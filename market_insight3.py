@@ -13,7 +13,6 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from reportlab.lib.styles import getSampleStyleSheet
 from markdown_pdf import MarkdownPdf, Section
 
-
 # Load environment variables
 load_dotenv()
 
@@ -82,36 +81,6 @@ def create_charts(agency_metrics, market_metrics):
         st.error(f"Error creating charts: {e}")
         return None, None, None, None
 
-# def create_pdf(analysis, chart_files):
-    try:
-        buffer = io.BytesIO()
-        doc = SimpleDocTemplate(buffer, pagesize=letter)
-        styles = getSampleStyleSheet()
-        story = []
-
-        # Clean up markdown syntax from analysis text
-        analysis_clean = analysis.replace("**", "").replace("#", "")
-
-        # Add analysis text
-        story.append(Paragraph("Analysis and Recommendations", styles['Heading1']))
-        story.append(Spacer(1, 12))
-        story.append(Paragraph(analysis_clean, styles['BodyText']))
-        story.append(Spacer(1, 12))
-
-        # Add charts as images
-        for chart_file in chart_files:
-            img = Image(chart_file, width=500, height=300)
-            story.append(img)
-            story.append(Spacer(1, 12))
-
-        doc.build(story)
-        buffer.seek(0)
-        return buffer
-
-    except Exception as e:
-        st.error(f"Error creating PDF: {e}")
-        return None
-
 if st.button('Generate Analysis'):
     try:
         if agency_file is None or market_file is None:
@@ -166,20 +135,19 @@ if st.button('Generate Analysis'):
             ]
 
             # Create PDF
-            # pdf_buffer = create_pdf(analysis, chart_files)
             pdf = MarkdownPdf()
-            pdf.add_section(Section(analysis , toc=False))
+            pdf.add_section(Section(analysis, toc=False))
             pdf.save('output2.pdf')
 
-            with open("output2.pdf","rb") as pdf_file:
+            with open("output2.pdf", "rb") as pdf_file:
                 st.download_button(
-                    label="Download Analysis and Charts as PDF",
+                    label="Download as PDF",
                     data=pdf_file,
                     file_name="market_insights.pdf",
                     mime="application/pdf"
                 )
 
-                # Clean up temporary files
+            # Clean up temporary files
             for file in chart_files:
                 os.unlink(file)
 
